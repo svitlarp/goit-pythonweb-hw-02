@@ -1,0 +1,22 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:12
+    environment:
+      POSTGRES_DB: hw02
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_password
+    ports:
+      - "5432:5432"
+  app:
+    build: .
+    ports:
+      - "3000:5000"
+    depends_on:
+      - postgres
+
+secrets:
+  db_password:
+    file: "db_password.txt"
